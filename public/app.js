@@ -4,24 +4,25 @@
 angular
   .module('myApp', [
     'ngRoute',
+    'as.sortable',
     'btford.socket-io',
     'ngMaterial',
     'myApp.homeView',
   ])
-  .config([ '$locationProvider', '$routeProvider',
-    function ($locationProvider, $routeProvider) {
+  .config(['$locationProvider', '$routeProvider',
+    function($locationProvider, $routeProvider) {
       $locationProvider.hashPrefix('!');
       $routeProvider.otherwise({ redirectTo: '/' });
-    } ])
-  .config(function ($mdThemingProvider) {
+    }])
+  .config(function($mdThemingProvider) {
     $mdThemingProvider.theme('dark-grey').backgroundPalette('grey').dark();
     $mdThemingProvider.theme('dark-orange').backgroundPalette('orange').dark();
     $mdThemingProvider.theme('dark-purple').backgroundPalette('deep-purple').dark();
     $mdThemingProvider.theme('dark-blue').backgroundPalette('blue').dark();
   })
-  .controller('NavCtrl', function ($scope, $rootScope, $location) {
+  .controller('NavCtrl', function($scope, $rootScope, $location) {
     $scope.location = $location.path();
-    $rootScope.$on('$routeChangeSuccess', function () {
+    $rootScope.$on('$routeChangeSuccess', function() {
       $scope.location = $location.path();
     });
   });

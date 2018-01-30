@@ -1,17 +1,17 @@
 'use strict';
 
 angular
-  .module('myApp.homeView', [ 'ngRoute' ])
-  .config([ '$routeProvider', function ($routeProvider) {
+  .module('myApp.homeView', ['ngRoute'])
+  .config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/', {
       templateUrl: 'homeView/homeView.html',
       controller: 'HomeCtrl'
     });
-  } ])
-  .factory('mySocket', function (socketFactory) {
+  }])
+  .factory('mySocket', function(socketFactory) {
     return socketFactory();
   })
-  .controller('HomeCtrl', [ '$scope', '$http', 'mySocket', function ($scope, $http, mySocket) {
+  .controller('HomeCtrl', ['$scope', '$http', 'mySocket', function($scope, $http, mySocket) {
     $scope.projects = null;
     $scope.urls = {};
     $scope.currentProject = null;
@@ -43,10 +43,10 @@ angular
     $scope.saveProject =
       (project) => {
         if (project) {
-          $scope.thinking = true;
+          // $scope.thinking = true;
           $http
-            .put('/api/projects', project)
-            .then($scope.refreshProjects);
+            .put('/api/project', project)
+            // .then($scope.refreshProjects);
         }
         else {
           console.log(project)
@@ -91,5 +91,19 @@ angular
       $scope.urls[event[0]] = undefined;
     });
 
+    $scope.dragControlListeners = {
+      // accept: function(sourceItemHandleScope, destSortableScope) {
+      //   return true;
+      // },
+      // itemMoved: function(event) {
+      // },
+      orderChanged: function(event) {
+        $http.put('/api/projects', $scope.projects);
+      },
+      // containment: '#board',
+      // clone: false,
+      // allowDuplicates: false //optional param allows duplicates to be dropped.
+    };
+
     $scope.refreshProjects();
-  } ]);
+  }]);

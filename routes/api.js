@@ -88,9 +88,15 @@ module.exports = function(io) {
     }
   });
 
-  router.put('/projects', (req, res) => {
+  router.put('/project', (req, res) => {
     db.get('projects')
       .replaceById(req.body.id, req.body)
+      .write();
+    res.json(req.body);
+  });
+
+  router.put('/projects', (req, res) => {
+    db.set('projects', req.body)
       .write();
     res.json(req.body);
   });

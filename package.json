@@ -20,6 +20,8 @@
   "dependencies": {
     "bower": "^1.8.2",
     "express": "^4.16.2",
+    "express-authentication": "^0.3.2",
+    "express-basic-auth": "^1.1.3",
     "lodash-id": "^0.14.0",
     "lowdb": "^1.0.0",
     "socket.io": "^2.0.4"
