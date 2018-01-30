@@ -16,6 +16,7 @@ angular
     $scope.urls = {};
     $scope.currentProject = null;
     $scope.thinking = true;
+    $scope.dirty = false;
 
     $scope.refreshProjects =
       () => {
@@ -52,6 +53,9 @@ angular
           console.log(project)
         }
       };
+    $scope.saveProjects = () =>  {
+      $http.put('/api/projects', $scope.projects).then(() => $scope.dirty = false);
+    };
 
     $scope.deleteProject =
       (project) => {
@@ -97,9 +101,7 @@ angular
       // },
       // itemMoved: function(event) {
       // },
-      orderChanged: function(event) {
-        $http.put('/api/projects', $scope.projects);
-      },
+      orderChanged: (event) => $scope.dirty = true,
       // containment: '#board',
       // clone: false,
       // allowDuplicates: false //optional param allows duplicates to be dropped.

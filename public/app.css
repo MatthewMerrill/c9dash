@@ -1,0 +1,12 @@
+.blink {
+    background-color: #ff4136;
+    animation: blinker 1s linear infinite;
+}
+
+.faded-card {
+    background-color: #e0e0e0;
+}
+
+@keyframes blinker {
+    50% { background-color: #85144b; }
+}

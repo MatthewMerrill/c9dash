@@ -18,8 +18,8 @@
                 <md-icon ng-if="!urls[project.id]" style="color:red">cloud_off</md-icon>
               </span>
               <md-list-item ng-click="switchTo(project)">
-                <div >
-                <span>{{project.name}}</span>
+                <div>
+                  <span>{{project.name}}</span>
                 </div>
               </md-list-item>
             </md-card>
@@ -27,63 +27,76 @@
                 ng-if="projects===null"
                 md-mode="indeterminate"></md-progress-circular>
           </md-list>
-          <md-button
-              ng-disabled="thinking"
-              ng-click="createProject()">Create Project
-          </md-button>
-          <md-button
-              ng-click="refreshProjects()">Refresh
-          </md-button>
         </div>
         <div flex>
-          <form name="currentProjectForm" ng-submit="saveProject(currentProject)">
-            <span>
-              <a ng-if="urls[currentProject.id]" href="{{urls[currentProject.id]}}">
-                {{urls[currentProject.id] || "Not Running"}}</a>
-            </span>
-            <span ng-if="!urls[currentProject.id]">Not Running</span>
-            <br/>
-            <md-input-container>
-              <label>Project Name</label>
-              <input name="projectName"
-                     ng-model="currentProject.name"
-                     ng-change="saveProject(currentProject)"
-                     ng-disabled="thinking" required>
-              <div ng-messages="currentProjectForm.projctName.$error">
-                <div ng-message="required">This is required!</div>
-              </div>
-            </md-input-container>
-            <md-input-container>
-              <label>Working Directory</label>
-              <input name="projectDirectory"
-                     ng-model="currentProject.directory"
-                     ng-change="saveProject(currentProject)"
-                     ng-disabled="thinking" required>
-              <div ng-messages="currentProjectForm.projectDirectory.$error">
-                <div ng-message="required">This is required!</div>
-              </div>
-            </md-input-container>
-            <br/>
-            <md-button
-                ng-disabled="!currentProject || thinking || urls[currentProject.id]"
-                ng-click="launchProject(currentProject)">Launch
-            </md-button>
-            <md-button
-                ng-disabled="!currentProject || thinking || !urls[currentProject.id]"
-                ng-click="stopProject(currentProject)">Stop
-            </md-button>
-            <!--<md-button-->
-                <!--ng-disabled="!currentProject || thinking"-->
-                <!--ng-click="saveProject(currentProject)">Save-->
-            <!--</md-button>-->
-            <md-button
-                class="md-warn"
-                ng-disabled="!currentProject || thinking"
-                ng-click="deleteProject(currentProject)">Delete
-            </md-button>
-          </form>
+          <md-card ng-class="{'faded-card': !currentProject}" flex>
+            <form name="currentProjectForm" ng-submit="saveProject(currentProject)">
+              <md-card-content>
+                <span>
+                  <a ng-if="urls[currentProject.id]" href="{{urls[currentProject.id]}}">
+                    {{urls[currentProject.id] || "Not Running"}}</a>
+                </span>
+                <span ng-if="currentProject && !urls[currentProject.id]">Not Running</span>
+                <span ng-if="!currentProject">No Project Selected</span>
+                <br/>
+                <md-input-container>
+                  <label>Project Name</label>
+                  <input name="projectName"
+                         ng-model="currentProject.name"
+                         ng-change="saveProject(currentProject)"
+                         ng-disabled="!currentProject || thinking" required>
+                  <div ng-messages="currentProjectForm.projctName.$error">
+                    <div ng-message="required">This is required!</div>
+                  </div>
+                </md-input-container>
+                <md-input-container>
+                  <label>Working Directory</label>
+                  <input name="projectDirectory"
+                         ng-model="currentProject.directory"
+                         ng-change="saveProject(currentProject)"
+                         ng-disabled="!currentProject || thinking" required>
+                  <div ng-messages="currentProjectForm.projectDirectory.$error">
+                    <div ng-message="required">This is required!</div>
+                  </div>
+                </md-input-container>
+  
+              </md-card-content>
+              <md-card-actions>
+                <md-button
+                    ng-disabled="!currentProject || thinking || urls[currentProject.id]"
+                    ng-click="saveProjects(); launchProject(currentProject)">Launch
+                </md-button>
+                <md-button
+                    ng-disabled="!currentProject || thinking || !urls[currentProject.id]"
+                    ng-click="stopProject(currentProject)">Stop
+                </md-button>
+                <md-button
+                    class="md-warn"
+                    ng-disabled="!currentProject || thinking"
+                    ng-click="deleteProject(currentProject)">Delete
+                </md-button>
+              </md-card-actions>
+            </form>
+          </md-card>
         </div>
       </div>
     </md-card-content>
+    <md-card-actions layout="row" layout-align="start center">
+      <md-button
+          ng-disabled="thinking"
+          ng-click="createProject()">Create Project
+      </md-button>
+      <md-button
+          ng-click="refreshProjects()">Refresh
+      </md-button>
+
+      <md-card-icon-actions>
+        <md-button class="md-fab" aria-label="save"
+                   ng-click="saveProjects()"
+                   ng-disabled="!dirty" ng-class="{blink: dirty}">
+          <md-icon>save</md-icon>
+        </md-button>
+      </md-card-icon-actions>
+    </md-card-actions>
 </div>
 </div
