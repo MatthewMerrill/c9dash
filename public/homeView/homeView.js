@@ -88,7 +88,7 @@ angular
     mySocket.on('started', function(event) {
       $scope.urls[event[0]] = event[1];
       if (event[1] === 'http://www.mattmerr.com') {
-        alert('Hey! You need to configure your ');
+        alert('Hey! You need to configure your db.json');
       }
     });
     mySocket.on('stopped', function(event) {
