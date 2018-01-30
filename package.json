@@ -1,0 +1,27 @@
+{
+  "name": "c9dash",
+  "version": "1.0.0",
+  "description": "Dashboard for launching cloud 9 servers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install_components": "bower install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MatthewMerrill/c9dash.git"
+  },
+  "author": "Matthew Merrill",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MatthewMerrill/c9dash/issues"
+  },
+  "homepage": "https://github.com/MatthewMerrill/c9dash#readme",
+  "dependencies": {
+    "bower": "^1.8.2",
+    "express": "^4.16.2",
+    "lodash-id": "^0.14.0",
+    "lowdb": "^1.0.0",
+    "socket.io": "^2.0.4"
+  }
+}

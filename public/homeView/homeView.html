@@ -1,0 +1,81 @@
+<div>
+  <h1>c9dash</h1>
+  <md-card>
+    <md-card-title>
+      <md-card-title-text>
+        <span class="md-headline">Projects</span>
+      </md-card-title-text>
+    </md-card-title>
+    <md-card-content>
+      <div layout="row" layout-xs="column">
+        <div flex>
+          <md-list layout="column" layout-align="center start" flex>
+            <md-list-item
+                ng-repeat="project in projects"
+                ng-click="switchTo(project)">
+              <md-icon ng-if="urls[project.id]" style="color:green">cloud_queue</md-icon>
+              <md-icon ng-if="!urls[project.id]" style="color:red">cloud_off</md-icon>
+              <span>{{project.name}}</span>
+            </md-list-item>
+            <md-progress-circular
+                ng-if="projects===null"
+                md-mode="indeterminate"></md-progress-circular>
+          </md-list>
+          <md-button
+              ng-disabled="thinking"
+              ng-click="createProject()">Create Project
+          </md-button>
+          <md-button
+              ng-click="refreshProjects()">Refresh
+          </md-button>
+        </div>
+        <div flex>
+          <form name="currentProjectForm" ng-submit="saveProject(currentProject)">
+            <span>
+              <a ng-if="urls[currentProject.id]" href="{{urls[currentProject.id]}}">
+                {{urls[currentProject.id] || "Not Running"}}</a>
+            </span>
+            <span ng-if="!urls[currentProject.id]">Not Running</span>
+            <br/>
+            <md-input-container>
+              <label>Project Name</label>
+              <input name="projectName"
+                     ng-model="currentProject.name"
+                     ng-disabled="thinking" required>
+              <div ng-messages="currentProjectForm.projctName.$error">
+                <div ng-message="required">This is required!</div>
+              </div>
+            </md-input-container>
+            <md-input-container>
+              <label>Working Directory</label>
+              <input name="projectDirectory"
+                     ng-model="currentProject.directory"
+                     ng-disabled="thinking" required>
+              <div ng-messages="currentProjectForm.projectDirectory.$error">
+                <div ng-message="required">This is required!</div>
+              </div>
+            </md-input-container>
+            <br/>
+            <md-button
+                ng-disabled="!currentProject || thinking || urls[currentProject.id]"
+                ng-click="launchProject(currentProject)">Launch
+            </md-button>
+            <md-button
+                ng-disabled="!currentProject || thinking || !urls[currentProject.id]"
+                ng-click="stopProject(currentProject)">Stop
+            </md-button>
+            <md-button
+                ng-disabled="!currentProject || thinking"
+                ng-click="saveProject(currentProject)">Save
+            </md-button>
+            <md-button
+                class="md-warn"
+                ng-disabled="!currentProject || thinking"
+                ng-click="deleteProject(currentProject)">Delete
+            </md-button>
+          </form>
+        </div>
+      </div>
+    </md-card-content>
+</div>
+</div
