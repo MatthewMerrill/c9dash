@@ -43,7 +43,7 @@
                   <label>Project Name</label>
                   <input name="projectName"
                          ng-model="currentProject.name"
-                         ng-change="saveProject(currentProject)"
+                         ng-change="dirty = true"
                          ng-disabled="!currentProject || thinking" required>
                   <div ng-messages="currentProjectForm.projctName.$error">
                     <div ng-message="required">This is required!</div>
@@ -53,7 +53,7 @@
                   <label>Working Directory</label>
                   <input name="projectDirectory"
                          ng-model="currentProject.directory"
-                         ng-change="saveProject(currentProject)"
+                         ng-change="dirty = true"
                          ng-disabled="!currentProject || thinking" required>
                   <div ng-messages="currentProjectForm.projectDirectory.$error">
                     <div ng-message="required">This is required!</div>

@@ -27,7 +27,7 @@ module.exports = function(io) {
     listeners.add(socket);
     socket.on('disconnect', () => listeners.delete(socket));
     for (let id in project_ports) {
-      socket.emit('started', [id, project_ports[id]]);
+      socket.emit('started', [id, db.get('urlTemplate').value().replace('$PORT', project_ports[id])]);
     }
   });
 
