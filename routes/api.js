@@ -8,20 +8,19 @@ const FileSync = require('lowdb/adapters/FileSync');
 const child_process = require('child_process');
 const path = require('path');
 
-const adapter = new FileSync('db.json');
-const db = low(adapter);
-
-db._.mixin(lodashId);
-db.defaults({ projects: [], urlTemplate: 'http://www.mattmerr.com' })
-  .write();
-
 let project_procs = {};
 let project_ports = {};
 let listeners = new Set();
 
 let portsUsed = {};
 
-module.exports = function(io) {
+module.exports = function(io, nconf) {
+
+  const db = low(new FileSync(nconf.get('config:db')));
+
+  db._.mixin(lodashId);
+  db.defaults({ projects: [], urlTemplate: 'http://www.mattmerr.com' })
+    .write();
 
   io.on('connection', function(socket) {
     listeners.add(socket);

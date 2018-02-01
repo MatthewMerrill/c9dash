@@ -9,8 +9,22 @@ const io = require('socket.io')(server);
 
 const basicAuth = require('express-basic-auth');
 const low = require('lowdb');
+const nconf = require('nconf');
+
+nconf.argv();
+nconf.env();
+nconf.defaults({
+  http: {
+    port: 3000,
+  },
+  config: {
+    auth: 'auth.json',
+    db: 'db.json',
+  }
+});
+
 const FileSync = require('lowdb/adapters/FileSync');
-const db = low(new FileSync('auth.json'));
+const db = low(new FileSync(nconf.get('config:auth')));
 
 db.defaults({ 'defaultuser': 'supersecure' }).write();
 
@@ -22,7 +36,8 @@ app.use(basicAuth({
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 
+app.use('/api', require('./routes/api.js')(io, nconf));
 
-app.use('/api', require('./routes/api.js')(io));
-
-server.listen(3000);
+server.listen(
+  nconf.get('http:port'),
+  () => console.log(`c9dash listening on port ${nconf.get('http:port')}`));
