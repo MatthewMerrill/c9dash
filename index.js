@@ -26,10 +26,11 @@ nconf.defaults({
 const FileSync = require('lowdb/adapters/FileSync');
 const db = low(new FileSync(nconf.get('config:auth')));
 
-db.defaults({ 'defaultuser': 'supersecure' }).write();
+db.defaults({ username: 'default_username', password: 'password123' })
+  .write();
 
 app.use(basicAuth({
-  users: db.value(),
+  users: { [db.get('username').value()]: db.get('password').value() },
   challenge: true,
 }));
 

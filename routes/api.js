@@ -17,6 +17,7 @@ let portsUsed = {};
 module.exports = function(io, nconf) {
 
   const db = low(new FileSync(nconf.get('config:db')));
+  const auth_db = low(new FileSync(nconf.get('config:auth')));
 
   db._.mixin(lodashId);
   db.defaults({ projects: [], urlTemplate: 'http://www.mattmerr.com' })
@@ -53,7 +54,13 @@ module.exports = function(io, nconf) {
       }
 
       project_procs[project.id] = child_process.fork(
-        '/opt/c9sdk/server.js', ['-w', path.join('/home/merrillm/', project.directory), '-p', port]);
+        '/opt/c9sdk/server.js',
+        [
+          '-w', path.join('/home/merrillm/', project.directory),
+          '-p', port,
+          '--auth', 
+            auth_db.get('username') + ':' + auth_db.get('password').value()
+        ]);
       project_ports[project.id] = port;
       portsUsed[port] = true;
 
